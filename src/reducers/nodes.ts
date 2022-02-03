@@ -27,6 +27,27 @@ export const checkNodesStatus = createAsyncThunk(
   }
 );
 
+export const fetchingNodeBlocks = createAsyncThunk(
+  "nodes/fetchingNodeBlocks",
+  async (node: Node) => {
+    const response = await fetch(`${node.url}/api/v1/blocks`);
+    const data: { data: [] } = await response.json();
+    return data;
+  }
+);
+
+export const fetchNodeBlocks = createAsyncThunk(
+  "nodes/fetchNodeBlocks",
+  async (node: Node, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    try {
+      dispatch(fetchingNodeBlocks(node))
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
+
 export const nodesSlice = createSlice({
   name: "nodes",
   initialState: initialState().nodes as NodesState,
@@ -49,6 +70,37 @@ export const nodesSlice = createSlice({
       if (node) {
         node.online = false;
         node.loading = false;
+      }
+    });
+    // fetch blocks
+    builder.addCase(fetchingNodeBlocks.pending, (state, action) => {
+      const node = state.list.find((n) => n.url === action.meta.arg.url);
+      if (node) {
+        state.list.find((n) => n.url === action.meta.arg.url)!.blocks = {
+          loading: true,
+          data: [],
+          error: false
+        };
+      }
+    });
+    builder.addCase(fetchingNodeBlocks.fulfilled, (state, action) => {
+      const node = state.list.find((n) => n.url === action.meta.arg.url);
+      if (node) {
+        state.list.find((n) => n.url === action.meta.arg.url)!.blocks = {
+          loading: false,
+          data: action.payload.data,
+          error: false,
+        };
+      }
+    });
+    builder.addCase(fetchingNodeBlocks.rejected, (state, action) => {
+      const node = state.list.find((n) => n.url === action.meta.arg.url);
+      if (node) {
+        state.list.find((n) => n.url === action.meta.arg.url)!.blocks = {
+          loading: false,
+          data: [],
+          error: true,
+        };
       }
     });
   },

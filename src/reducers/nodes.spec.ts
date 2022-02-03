@@ -17,6 +17,11 @@ describe("Reducers::Nodes", () => {
     online: false,
     name: "Node 1",
     loading: false,
+    blocks: {
+      loading: false,
+      data: [],
+      error: false,
+    },
   };
 
   const nodeB = {
@@ -24,6 +29,11 @@ describe("Reducers::Nodes", () => {
     online: false,
     name: "Node 2",
     loading: false,
+    blocks: {
+      loading: false,
+      data: [],
+      error: false,
+    },
   };
 
   it("should set initial state by default", () => {
@@ -117,6 +127,11 @@ describe("Actions::Nodes", () => {
     online: false,
     name: "Node 1",
     loading: false,
+    blocks: {
+      loading: false,
+      data: [],
+      error: false,
+    },
   };
 
   it("should fetch the node status", async () => {

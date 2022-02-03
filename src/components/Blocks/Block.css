@@ -1,0 +1,22 @@
+.block-container {
+  background-color: rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 6px;
+}
+
+.block-id {
+  color: #304ffe;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+.block-data {
+  font-weight: "normal";
+  font-size: 14px;
+  letter-spacing: 0.25px;
+  color: #263238;
+}
